@@ -1,3 +1,12 @@
 from django.db import models
 
-# Create your models here.
+
+class Country(models.Model):
+    name = models.CharField('name', max_length=255)
+    created_at = models.DateTimeField(
+        'created at', auto_now_add=True, auto_now=False)
+    updated_at = models.DateTimeField(
+        'updated at', auto_now_add=True, auto_now=False)
+
+    def __str__(self):
+        return self.name
