@@ -8,6 +8,9 @@ name = "pypi"
 [packages]
 
 django = "*"
+python-decouple = "*"
+dj-database-url = "*"
+djangorestframework = "*"
 
 
 [dev-packages]
