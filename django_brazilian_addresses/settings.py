@@ -47,7 +47,9 @@ THIRD_PARTS_APPS = [
     'corsheaders',
 ]
 
-PROJECT_APPS = []
+PROJECT_APPS = [
+    'django_brazilian_addresses.addresses',
+]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTS_APPS + PROJECT_APPS
 
