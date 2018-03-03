@@ -234,6 +234,8 @@ celerybeat-schedule
 # SageMath parsed files
 *.sage.py
 
+*sqlite3
+
 # Environments
 .env
 env/
