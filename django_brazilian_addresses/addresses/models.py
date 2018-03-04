@@ -24,3 +24,18 @@ class State(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class City(models.Model):
+    name = models.CharField('name', max_length=255)
+    zipcode = models.CharField('zipcode', max_length=8, blank=True, null=True)
+    ibge = models.CharField('ibge', max_length=10, blank=True, null=True)
+    state = models.ForeignKey(
+        'State', on_delete=models.CASCADE, verbose_name='state')
+    created_at = models.DateTimeField(
+        'created at', auto_now_add=True, auto_now=False)
+    updated_at = models.DateTimeField(
+        'updated at', auto_now_add=True, auto_now=False)
+
+    def __str__(self):
+        return self.name
