@@ -7,7 +7,8 @@ from django_brazilian_addresses.addresses.models import Country, State
 class StateModelTest(TestCase):
     def setUp(self):
         country = Country.objects.create(name='Brasil')
-        self.state = State.objects.create(name='Paraná', country=country)
+        self.state = State.objects.create(
+            name='Paraná', initials='PR', country=country)
 
     def test_create(self):
         self.assertTrue(State.objects.exists())

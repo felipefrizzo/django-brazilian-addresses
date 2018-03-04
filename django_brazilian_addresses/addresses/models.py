@@ -14,6 +14,7 @@ class Country(models.Model):
 
 class State(models.Model):
     name = models.CharField('name', max_length=255)
+    initials = models.CharField('initials', max_length=2)
     country = models.ForeignKey(
         'Country', on_delete=models.CASCADE, verbose_name='country')
     created_at = models.DateTimeField(
