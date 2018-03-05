@@ -52,3 +52,16 @@ class Neighborhood(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class StreetType(models.Model):
+    name = models.CharField('name', max_length=15)
+    abbreviation = models.CharField(
+        'abbreviation', max_length=5, null=True, blank=True)
+    created_at = models.DateTimeField(
+        'created at', auto_now_add=True, auto_now=False)
+    updated_at = models.DateTimeField(
+        'updated at', auto_now_add=True, auto_now=False)
+
+    def __str__(self):
+        return self.name
