@@ -39,3 +39,16 @@ class City(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Neighborhood(models.Model):
+    name = models.CharField('name', max_length=255)
+    city = models.ForeignKey(
+        'City', on_delete=models.CASCADE, verbose_name='city')
+    created_at = models.DateTimeField(
+        'created at', auto_now_add=True, auto_now=False)
+    updated_at = models.DateTimeField(
+        'updated at', auto_now_add=True, auto_now=False)
+
+    def __str__(self):
+        return self.name
