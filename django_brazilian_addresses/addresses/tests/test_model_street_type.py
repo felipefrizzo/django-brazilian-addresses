@@ -15,12 +15,12 @@ class StreetTypeModelTest(TestCase):
         self.assertEqual('Rua', str(self.street_type))
     
     def test_abbreviation_blank(self):
-        """Abbreviation code can be blank"""
+        """Abbreviation can be blank"""
         field = StreetType._meta.get_field('abbreviation')
         self.assertTrue(field.blank)
 
     def test_abbreviation_null(self):
-        """Abbreviation code can be null"""
+        """Abbreviation can be null"""
         field = StreetType._meta.get_field('abbreviation')
         self.assertTrue(field.null)
 
