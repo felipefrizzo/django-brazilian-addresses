@@ -23,4 +23,3 @@ class StateModelTest(TestCase):
     def test_update_date(self):
         """State must have an auto updated_at attrs."""
         self.assertIsInstance(self.state.updated_at, datetime)
-

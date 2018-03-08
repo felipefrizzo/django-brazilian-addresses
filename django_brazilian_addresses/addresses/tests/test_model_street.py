@@ -60,7 +60,8 @@ class StreetModelTestZipcodeIsNone(TestCase):
 
     def test_zipcode_get_from_city(self):
         """
-        When the street do not have zipcode by default take the zipcode of the city.
+        When the street do not have zipcode
+        by default take the zipcode of the city.
         """
         self.assertEqual(
             self.street.neighborhood.city.zipcode, self.street.zipcode)
