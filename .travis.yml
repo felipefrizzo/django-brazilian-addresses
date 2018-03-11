@@ -9,4 +9,4 @@ install:
   - pipenv install --dev
 script:
   - python manage.py test
-  - flake8
+  - "flake8 ."
