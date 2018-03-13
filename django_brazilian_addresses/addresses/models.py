@@ -26,6 +26,9 @@ class State(models.Model):
     def __str__(self):
         return self.name
 
+    def get_country_name(self) -> str:
+        return self.country.name
+
 
 class City(models.Model):
     name = models.CharField('name', max_length=255)
@@ -41,6 +44,9 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
+    def get_state_name(self) -> str:
+        return self.state.name
+
 
 class Neighborhood(models.Model):
     name = models.CharField('name', max_length=255)
@@ -53,6 +59,9 @@ class Neighborhood(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_city_name(self) -> str:
+        return self.city.name
 
 
 class StreetType(models.Model):
@@ -100,3 +109,12 @@ class Street(models.Model):
 
     def get_street_type(self) -> str:
         return self.street_type.name
+
+    def get_state_initials(self) -> str:
+        return self.neighborhood.city.state.initials
+
+    def get_city_name(self) -> str:
+        return self.neighborhood.city.name
+
+    def get_neighborhood_name(self) -> str:
+        return self.neighborhood.name
