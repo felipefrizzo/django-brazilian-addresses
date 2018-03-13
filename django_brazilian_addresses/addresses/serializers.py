@@ -13,6 +13,7 @@ class CountrySerializer(ModelSerializer):
 
 class StateSerializer(ModelSerializer):
     country = serializers.CharField(source='get_country_name')
+
     class Meta:
         model = State
         fields = (
