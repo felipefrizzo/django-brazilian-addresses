@@ -33,6 +33,16 @@ class StreetModelTest(TestCase):
     def test_get_patio_type_name(self):
         self.assertEqual('Rua', self.street.get_street_type())
 
+    def test_get_state_initials(self):
+        self.assertEqual('PR', self.street.get_state_initials())
+
+    def test_get_city_name(self):
+        self.assertEqual('Cascavel', self.street.get_city_name())
+
+    def test_get_neighborhood_name(self):
+        self.assertEqual(
+            'Santa Felicidade', self.street.get_neighborhood_name())
+
     def test_create_date(self):
         """Street must have an auto created_at attrs."""
         self.assertIsInstance(self.street.created_at, datetime)

@@ -20,6 +20,9 @@ class NeighborhoodModelTest(TestCase):
     def test_str(self):
         self.assertEqual('Santa Felicidade', str(self.neigh))
 
+    def test_get_city_name(self):
+        self.assertEqual('Cascavel', self.neigh.get_city_name())
+
     def test_create_date(self):
         """Neighborhood must have an auto created_at attrs."""
         self.assertIsInstance(self.neigh.created_at, datetime)

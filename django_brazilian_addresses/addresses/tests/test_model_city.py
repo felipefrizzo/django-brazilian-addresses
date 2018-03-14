@@ -37,6 +37,9 @@ class CityModelTest(TestCase):
         field = City._meta.get_field('ibge')
         self.assertTrue(field.null)
 
+    def test_get_state_name(self):
+        self.assertEqual('Paraná', self.city.get_state_name())
+
     def test_create_date(self):
         """City must have an auto created_at attrs."""
         self.assertIsInstance(self.city.created_at, datetime)

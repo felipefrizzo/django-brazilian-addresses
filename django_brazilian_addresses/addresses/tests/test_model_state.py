@@ -16,6 +16,9 @@ class StateModelTest(TestCase):
     def test_str(self):
         self.assertEqual('Paraná', str(self.state))
 
+    def test_get_state_initials(self):
+        self.assertEqual('Brasil', self.state.get_country_name())
+
     def test_create_date(self):
         """State must have an auto created_at attrs."""
         self.assertIsInstance(self.state.created_at, datetime)
