@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.shortcuts import resolve_url
 
 
 class Country(models.Model):
@@ -11,6 +12,9 @@ class Country(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self) -> str:
+        return resolve_url('country-detail', self.pk)
 
 
 class State(models.Model):

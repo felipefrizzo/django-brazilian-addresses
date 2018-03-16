@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from django.shortcuts import resolve_url
 from django.test import TestCase
 
 from django_brazilian_addresses.addresses.models import Country
@@ -13,6 +15,10 @@ class CountryModelTest(TestCase):
 
     def test_str(self):
         self.assertEqual('Brasil', str(self.country))
+
+    def test_absolute_url(self):
+        url = resolve_url('country-detail', self.country.pk)
+        self.assertEqual(url, self.country.get_absolute_url())
 
     def test_create_date(self):
         """Country must have an auto created_at attrs."""
