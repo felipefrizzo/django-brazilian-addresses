@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from django.shortcuts import resolve_url
 from django.test import TestCase
 
 from django_brazilian_addresses.addresses.models import Country, State, City
@@ -36,6 +38,10 @@ class CityModelTest(TestCase):
         """Ibge code can be null"""
         field = City._meta.get_field('ibge')
         self.assertTrue(field.null)
+
+    def test_absolute_url(self):
+        url = resolve_url('city-detail', self.city.pk)
+        self.assertEqual(url, self.city.get_absolute_url())
 
     def test_get_state_name(self):
         self.assertEqual('Paraná', self.city.get_state_name())

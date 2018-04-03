@@ -54,6 +54,9 @@ class City(models.Model):
     def get_state_name(self) -> str:
         return self.state.name
 
+    def get_absolute_url(self) -> str:
+        return resolve_url('city-detail', self.pk)
+
 
 class Neighborhood(models.Model):
     name = models.CharField('name', max_length=255)
