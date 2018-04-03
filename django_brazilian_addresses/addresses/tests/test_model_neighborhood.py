@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from django.shortcuts import resolve_url
 from django.test import TestCase
 
 from django_brazilian_addresses.addresses.models import Country, State, City, \
@@ -19,6 +21,10 @@ class NeighborhoodModelTest(TestCase):
 
     def test_str(self):
         self.assertEqual('Santa Felicidade', str(self.neigh))
+
+    def test_absolute_url(self):
+        url = resolve_url('neighborhood-detail', self.neigh.pk)
+        self.assertEqual(url, self.neigh.get_absolute_url())
 
     def test_get_city_name(self):
         self.assertEqual('Cascavel', self.neigh.get_city_name())

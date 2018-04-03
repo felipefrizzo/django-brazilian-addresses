@@ -73,6 +73,9 @@ class Neighborhood(models.Model):
     def get_city_name(self) -> str:
         return self.city.name
 
+    def get_absolute_url(self) -> str:
+        return resolve_url('neighborhood-detail', self.pk)
+
 
 class StreetType(models.Model):
     name = models.CharField('name', max_length=15)
