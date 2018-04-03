@@ -5,7 +5,7 @@ from rest_framework.test import APITestCase
 from django_brazilian_addresses.addresses.models import Country, State, City
 
 
-class StateViewTest(APITestCase):
+class CityViewTest(APITestCase):
     def setUp(self):
         country = Country.objects.create(name='Brasil')
         state = State.objects.create(name='Paraná', country=country)
@@ -22,7 +22,7 @@ class StateViewTest(APITestCase):
         self.assertEqual(1, len(self.response.data))
 
 
-class StateViewInvalidPostTest(APITestCase):
+class CityViewInvalidPostTest(APITestCase):
     def setUp(self):
         country = Country.objects.create(name='Brasil')
         state = State.objects.create(name='Paraná', country=country)
@@ -42,7 +42,7 @@ class StateViewInvalidPostTest(APITestCase):
         self.assertFalse(City.objects.exists())
 
 
-class StateViewInvalidUpdateTest(APITestCase):
+class CityViewInvalidUpdateTest(APITestCase):
     def setUp(self):
         country = Country.objects.create(name='Brasil')
         state = State.objects.create(name='Paraná', country=country)
@@ -57,7 +57,7 @@ class StateViewInvalidUpdateTest(APITestCase):
             status.HTTP_405_METHOD_NOT_ALLOWED, self.response.status_code)
 
 
-class StateViewInvalidDeleteTest(APITestCase):
+class CityViewInvalidDeleteTest(APITestCase):
     def setUp(self):
         country = Country.objects.create(name='Brasil')
         state = State.objects.create(name='Paraná', country=country)
