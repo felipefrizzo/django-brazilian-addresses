@@ -33,6 +33,9 @@ class State(models.Model):
     def get_country_name(self) -> str:
         return self.country.name
 
+    def get_absolute_url(self) -> str:
+        return resolve_url('state-detail', self.pk)
+
 
 class City(models.Model):
     name = models.CharField('name', max_length=255)
