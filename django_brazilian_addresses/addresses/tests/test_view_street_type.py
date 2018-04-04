@@ -41,7 +41,7 @@ class StreetTypeViewInvalidUpdateTest(APITestCase):
 
     def test_post(self):
         """Invalid post must return status code 405."""
-        self.response = self.client.put(self.url, dict(name='Nova Cidade'))
+        self.response = self.client.put(self.url, dict(name='Avenida'))
         self.assertEqual(
             status.HTTP_405_METHOD_NOT_ALLOWED, self.response.status_code)
 
