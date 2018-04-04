@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from django.shortcuts import resolve_url
 from django.test import TestCase
 
 from django_brazilian_addresses.addresses.models import StreetType
@@ -23,6 +25,10 @@ class StreetTypeModelTest(TestCase):
         """Abbreviation can be null"""
         field = StreetType._meta.get_field('abbreviation')
         self.assertTrue(field.null)
+
+    def test_absolute_url(self):
+        url = resolve_url('streettype-detail', self.street_type.pk)
+        self.assertEqual(url, self.street_type.get_absolute_url())
 
     def test_create_date(self):
         """Street Type must have an auto created_at attrs."""

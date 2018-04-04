@@ -89,6 +89,9 @@ class StreetType(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self) -> str:
+        return resolve_url('streettype-detail', self.pk)
+
 
 class Street(models.Model):
     name = models.CharField('name', max_length=255)
