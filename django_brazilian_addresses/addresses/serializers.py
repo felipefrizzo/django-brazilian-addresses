@@ -50,7 +50,7 @@ class StreetSerializer(ModelSerializer):
     city = serializers.CharField(source='get_city_name')
     neighborhood = serializers.CharField(source='get_neighborhood_name')
     street_name = serializers.CharField(source='name')
-    street_type = serializers.CharField(source='get_patio_type')
+    street_type = serializers.CharField(source='get_street_type')
 
     class Meta:
         model = Street
