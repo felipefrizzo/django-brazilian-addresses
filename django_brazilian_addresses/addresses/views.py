@@ -1,9 +1,10 @@
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from django_brazilian_addresses.addresses.models import Country, State, City, \
-    Neighborhood
+    Neighborhood, StreetType
 from django_brazilian_addresses.addresses.serializers import \
-    CountrySerializer, StateSerializer, CitySerializer, NeighborhoodSerializer
+    CountrySerializer, StateSerializer, CitySerializer, \
+    NeighborhoodSerializer, StreetTypeSerializer
 
 
 class CountryView(ReadOnlyModelViewSet):
@@ -44,3 +45,8 @@ class CityView(ReadOnlyModelViewSet):
 class NeighborhoodView(ReadOnlyModelViewSet):
     queryset = Neighborhood.objects.all()
     serializer_class = NeighborhoodSerializer
+
+
+class StreetTypeView(ReadOnlyModelViewSet):
+    queryset = StreetType.objects.all()
+    serializer_class = StreetTypeSerializer
