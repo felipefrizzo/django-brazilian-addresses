@@ -38,7 +38,7 @@ class CityView(ReadOnlyModelViewSet):
         initials = self.request.query_params.get('initials', None)
 
         if initials is not None:
-            return City.objects.filter(state__initials=initials)
+            qs = City.objects.filter(state__initials=initials)
         return qs
 
 
@@ -56,3 +56,15 @@ class StreetTypeView(ReadOnlyModelViewSet):
 class StreetView(ReadOnlyModelViewSet):
     queryset = Street.objects.all()
     serializer_class = StreetSerializer
+    filter_fields = ('zipcode',)
+
+    def get_queryset(self):
+        qs = super(StreetView, self).get_queryset()
+        get_zipcode = self.request.query_params.get('zipcode', None)
+
+        if get_zipcode is not None:
+            qs = Street.objects.filter(zipcode=get_zipcode)
+            if not qs:
+                self.serializer_class = CitySerializer
+                qs = City.objects.filter(zipcode=get_zipcode)
+        return qs
