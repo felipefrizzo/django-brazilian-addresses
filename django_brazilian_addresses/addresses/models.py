@@ -123,6 +123,9 @@ class Street(models.Model):
             self.zipcode = self.neighborhood.city.zipcode
             self.save()
 
+    def get_absolute_url(self) -> str:
+        return resolve_url('street-detail', self.pk)
+
     def get_street_type(self) -> str:
         return self.street_type.name
 

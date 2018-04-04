@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.shortcuts import resolve_url
 from django.test import TestCase
 
 from django_brazilian_addresses.addresses.models import Country, State, City, \
@@ -42,6 +43,10 @@ class StreetModelTest(TestCase):
     def test_get_neighborhood_name(self):
         self.assertEqual(
             'Santa Felicidade', self.street.get_neighborhood_name())
+
+    def test_absolute_url(self):
+        url = resolve_url('street-detail', self.street.pk)
+        self.assertEqual(url, self.street.get_absolute_url())
 
     def test_create_date(self):
         """Street must have an auto created_at attrs."""
