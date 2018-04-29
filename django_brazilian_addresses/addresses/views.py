@@ -1,3 +1,5 @@
+from django.utils.translation import gettext_lazy as _
+from rest_framework.exceptions import NotFound
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from django_brazilian_addresses.addresses.models import Country, State, City, \
@@ -67,4 +69,6 @@ class StreetView(ReadOnlyModelViewSet):
             if not qs:
                 self.serializer_class = CitySerializer
                 qs = City.objects.filter(zipcode=get_zipcode)
+                if not qs:
+                    raise NotFound({'street': _('Street cannot be found')})
         return qs
