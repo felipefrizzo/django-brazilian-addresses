@@ -29,6 +29,16 @@ class StreetViewTest(APITestCase):
         self.assertEqual(1, len(self.response.data))
 
 
+class StreetViewInvalidGetTest(APITestCase):
+    def setUp(self):
+        self.response = self.client.get(
+            f'{resolve_url("street-list")}?zipcode=85803260')
+
+    def test_view(self):
+        """Invalid GET /street/?zipcode=ZIPCODE must return status code 404."""
+        self.assertEqual(status.HTTP_404_NOT_FOUND, self.response.status_code)
+
+
 class StreetViewInvalidPostTest(APITestCase):
     def setUp(self):
         country = Country.objects.create(name='Brasil')
