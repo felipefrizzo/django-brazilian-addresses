@@ -3,14 +3,13 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from django_brazilian_addresses.addresses.models import (
-    Country, State, City, Neighborhood, Street
+    State, City, Neighborhood, Street
 )
 
 
 class StreetViewTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(name='Paraná', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         city = City.objects.create(name='Cascavel', state=state)
         neigh = Neighborhood.objects.create(name='Santa Felicidade', city=city)
         Street.objects.create(
@@ -31,8 +30,7 @@ class StreetViewTest(APITestCase):
 
 class StreetViewGetTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        State.objects.create(name='Paraná', initials='PR', country=country)
+        State.objects.create(name='Paraná', initials='PR')
         self.url = resolve_url('street-detail', zipcode='85803260')
 
     def test_exists(self):
@@ -46,8 +44,9 @@ class StreetViewGetTest(APITestCase):
 
 class StreetViewInvalidGetTest(APITestCase):
     def setUp(self):
+        State.objects.create(name='Paraná', initials='PR')
         self.response = self.client.get(
-            resolve_url('street-detail', zipcode='9797977')
+            resolve_url('street-detail', zipcode='97979777')
         )
 
     def test_view(self):
@@ -57,8 +56,7 @@ class StreetViewInvalidGetTest(APITestCase):
 
 class StreetViewInvalidPostTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(name='Paraná', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         city = City.objects.create(name='Cascavel', state=state)
         neigh = Neighborhood.objects.create(name='Santa Felicidade', city=city)
 
@@ -82,8 +80,7 @@ class StreetViewInvalidPostTest(APITestCase):
 
 class StreetViewInvalidUpdateTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(name='Paraná', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         city = City.objects.create(name='Cascavel', state=state)
         neigh = Neighborhood.objects.create(name='Santa Felicidade', city=city)
         street = Street.objects.create(
@@ -102,8 +99,7 @@ class StreetViewInvalidUpdateTest(APITestCase):
 
 class StreetViewInvalidDeleteTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(name='Paraná', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         city = City.objects.create(name='Cascavel', state=state)
         neigh = Neighborhood.objects.create(name='Santa Felicidade', city=city)
         street = Street.objects.create(

@@ -3,14 +3,12 @@ from datetime import datetime
 from django.shortcuts import resolve_url
 from django.test import TestCase
 
-from django_brazilian_addresses.addresses.models import Country, State, City
+from django_brazilian_addresses.addresses.models import State, City
 
 
 class CityModelTest(TestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(
-            name='Paraná', initials='PR', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         self.city = City.objects.create(name='Cascavel', state=state)
 
     def test_create(self):

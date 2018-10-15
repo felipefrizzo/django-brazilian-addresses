@@ -2,23 +2,15 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from django_brazilian_addresses.addresses.models import (
-    Country, State, City, Neighborhood, Street
+    State, City, Neighborhood, Street
 )
 
 
-class CountrySerializer(ModelSerializer):
-    class Meta:
-        model = Country
-        fields = ('id', 'name', 'created_at', 'updated_at')
-
-
 class StateSerializer(ModelSerializer):
-    country = serializers.CharField(source='get_country_name')
-
     class Meta:
         model = State
         fields = (
-            'id', 'name', 'initials', 'country', 'created_at', 'updated_at')
+            'id', 'name', 'initials', 'created_at', 'updated_at')
 
 
 class CitySerializer(ModelSerializer):

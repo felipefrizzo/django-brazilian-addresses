@@ -2,14 +2,13 @@ from django.shortcuts import resolve_url
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from django_brazilian_addresses.addresses.models import Country, State, City, \
+from django_brazilian_addresses.addresses.models import State, City, \
     Neighborhood
 
 
 class NeighborhoodViewTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(name='Paraná', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         city = City.objects.create(name='Cascavel', state=state)
         Neighborhood.objects.create(name='Santa Felicidade', city=city)
 
@@ -26,8 +25,7 @@ class NeighborhoodViewTest(APITestCase):
 
 class NeighborhoodViewInvalidPostTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(name='Paraná', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         city = City.objects.create(name='Cascavel', state=state)
 
         self.response = self.client.post(
@@ -47,8 +45,7 @@ class NeighborhoodViewInvalidPostTest(APITestCase):
 
 class NeighborhoodViewInvalidUpdateTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(name='Paraná', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         city = City.objects.create(name='Cascavel', state=state)
         neigh = Neighborhood.objects.create(name='Santa Felicidade', city=city)
 
@@ -63,8 +60,7 @@ class NeighborhoodViewInvalidUpdateTest(APITestCase):
 
 class NeighborhoodViewInvalidDeleteTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(name='Paraná', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         city = City.objects.create(name='Cascavel', state=state)
         neigh = Neighborhood.objects.create(name='Santa Felicidade', city=city)
 

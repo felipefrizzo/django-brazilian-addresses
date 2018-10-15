@@ -3,25 +3,9 @@ from django.db import models
 from django.shortcuts import resolve_url
 
 
-class Country(models.Model):
-    name = models.CharField('name', max_length=255)
-    created_at = models.DateTimeField(
-        'created at', auto_now_add=True, auto_now=False)
-    updated_at = models.DateTimeField(
-        'updated at', auto_now_add=True, auto_now=False)
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self) -> str:
-        return resolve_url('country-detail', self.pk)
-
-
 class State(models.Model):
     name = models.CharField('name', max_length=255)
     initials = models.CharField('initials', max_length=2)
-    country = models.ForeignKey(
-        'Country', on_delete=models.CASCADE, verbose_name='country')
     created_at = models.DateTimeField(
         'created at', auto_now_add=True, auto_now=False)
     updated_at = models.DateTimeField(
@@ -29,9 +13,6 @@ class State(models.Model):
 
     def __str__(self):
         return self.name
-
-    def get_country_name(self) -> str:
-        return self.country.name
 
     def get_absolute_url(self) -> str:
         return resolve_url('state-detail', self.pk)

@@ -2,13 +2,12 @@ from django.shortcuts import resolve_url
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from django_brazilian_addresses.addresses.models import Country, State
+from django_brazilian_addresses.addresses.models import State
 
 
 class StateViewTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        State.objects.create(name='Paraná', country=country)
+        State.objects.create(name='Paraná', initials='PR')
         self.response = self.client.get(resolve_url('state-list'))
 
     def test_view(self):
@@ -22,10 +21,9 @@ class StateViewTest(APITestCase):
 
 class StateViewInvalidPostTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
         self.response = self.client.post(
             resolve_url('state-list'),
-            dict(name='Paraná', country=country.pk)
+            dict(name='Paraná', initials='PR')
         )
 
     def test_post(self):
@@ -40,8 +38,7 @@ class StateViewInvalidPostTest(APITestCase):
 
 class StateViewInvalidUpdateTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(name='Paraná', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         self.url = resolve_url('state-detail', state.pk)
 
     def test_post(self):
@@ -53,8 +50,7 @@ class StateViewInvalidUpdateTest(APITestCase):
 
 class StateViewInvalidDeleteTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(name='Paraná', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         self.url = resolve_url('state-detail', state.pk)
 
     def test_post(self):

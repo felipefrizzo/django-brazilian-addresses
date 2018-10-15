@@ -6,21 +6,15 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from django_brazilian_addresses.addresses.mixins import RequestsMixin
 from django_brazilian_addresses.addresses.models import (
-    Country, State, City, Neighborhood, Street
+    State, City, Neighborhood, Street
 )
 from django_brazilian_addresses.addresses.parsers import (
     parser_get_zipcode_request
 )
 from django_brazilian_addresses.addresses.serializers import (
-    CountrySerializer, StateSerializer, CitySerializer,
+    StateSerializer, CitySerializer,
     NeighborhoodSerializer, StreetSerializer
 )
-
-
-class CountryView(ReadOnlyModelViewSet):
-    queryset = Country.objects.all()
-    serializer_class = CountrySerializer
-    pagination_class = None
 
 
 class StateView(ReadOnlyModelViewSet):

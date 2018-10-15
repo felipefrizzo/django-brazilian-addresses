@@ -2,13 +2,12 @@ from django.shortcuts import resolve_url
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from django_brazilian_addresses.addresses.models import Country, State, City
+from django_brazilian_addresses.addresses.models import State, City
 
 
 class CityViewTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(name='Paraná', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         City.objects.create(name='Cascavel', state=state)
 
         self.response = self.client.get(resolve_url('city-list'))
@@ -24,8 +23,7 @@ class CityViewTest(APITestCase):
 
 class CityViewInvalidPostTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(name='Paraná', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
 
         self.response = self.client.post(
             resolve_url('city-list'),
@@ -44,8 +42,7 @@ class CityViewInvalidPostTest(APITestCase):
 
 class CityViewInvalidUpdateTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(name='Paraná', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         city = City.objects.create(name='Cascavel', state=state)
 
         self.url = resolve_url('city-detail', city.pk)
@@ -59,8 +56,7 @@ class CityViewInvalidUpdateTest(APITestCase):
 
 class CityViewInvalidDeleteTest(APITestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(name='Paraná', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         city = City.objects.create(name='Cascavel', state=state)
 
         self.url = resolve_url('city-detail', city.pk)

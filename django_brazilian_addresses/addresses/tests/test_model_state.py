@@ -3,14 +3,12 @@ from datetime import datetime
 from django.shortcuts import resolve_url
 from django.test import TestCase
 
-from django_brazilian_addresses.addresses.models import Country, State
+from django_brazilian_addresses.addresses.models import State
 
 
 class StateModelTest(TestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        self.state = State.objects.create(
-            name='Paraná', initials='PR', country=country)
+        self.state = State.objects.create(name='Paraná', initials='PR')
 
     def test_create(self):
         self.assertTrue(State.objects.exists())
@@ -19,7 +17,7 @@ class StateModelTest(TestCase):
         self.assertEqual('Paraná', str(self.state))
 
     def test_get_state_initials(self):
-        self.assertEqual('Brasil', self.state.get_country_name())
+        self.assertEqual('PR', self.state.initials)
 
     def test_absolute_url(self):
         url = resolve_url('state-detail', self.state.pk)

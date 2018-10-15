@@ -3,15 +3,13 @@ from datetime import datetime
 from django.shortcuts import resolve_url
 from django.test import TestCase
 
-from django_brazilian_addresses.addresses.models import Country, State, City, \
+from django_brazilian_addresses.addresses.models import State, City, \
     Neighborhood, Street
 
 
 class StreetModelTest(TestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(
-            name='Paraná', initials='PR', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         city = City.objects.create(name='Cascavel', state=state)
         neigh = Neighborhood.objects.create(name='Santa Felicidade', city=city)
 
@@ -51,9 +49,7 @@ class StreetModelTest(TestCase):
 
 class StreetModelTestZipcodeIsNone(TestCase):
     def setUp(self):
-        country = Country.objects.create(name='Brasil')
-        state = State.objects.create(
-            name='Paraná', initials='PR', country=country)
+        state = State.objects.create(name='Paraná', initials='PR')
         city = City.objects.create(
             name='Santa Tereza', state=state, zipcode='85825000')
         neigh = Neighborhood.objects.create(name='Centro', city=city)
