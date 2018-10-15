@@ -2,8 +2,9 @@ from django.shortcuts import resolve_url
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from django_brazilian_addresses.addresses.models import Country, State, City, \
-    Neighborhood, StreetType, Street
+from django_brazilian_addresses.addresses.models import (
+    Country, State, City, Neighborhood, Street
+)
 
 
 class StreetViewTest(APITestCase):
@@ -12,10 +13,9 @@ class StreetViewTest(APITestCase):
         state = State.objects.create(name='Paraná', country=country)
         city = City.objects.create(name='Cascavel', state=state)
         neigh = Neighborhood.objects.create(name='Santa Felicidade', city=city)
-        street_type = StreetType.objects.create(name='Rua')
         Street.objects.create(
-            name='João Ribeiro Pinheiro', zipcode='85803260',
-            neighborhood=neigh, street_type=street_type
+            name='Rua João Ribeiro Pinheiro',
+            zipcode='85803260', neighborhood=neigh
         )
 
         self.response = self.client.get(resolve_url('street-list'))
@@ -29,13 +29,29 @@ class StreetViewTest(APITestCase):
         self.assertEqual(1, len(self.response.data))
 
 
+class StreetViewGetTest(APITestCase):
+    def setUp(self):
+        country = Country.objects.create(name='Brasil')
+        State.objects.create(name='Paraná', initials='PR', country=country)
+        self.url = resolve_url('street-detail', zipcode='85803260')
+
+    def test_exists(self):
+        self.assertFalse(Street.objects.exists())
+
+    def test_view(self):
+        response = self.client.get(self.url)
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        self.assertTrue(Street.objects.exists())
+
+
 class StreetViewInvalidGetTest(APITestCase):
     def setUp(self):
         self.response = self.client.get(
-            f'{resolve_url("street-list")}?zipcode=85803260')
+            resolve_url('street-detail', zipcode='9797977')
+        )
 
     def test_view(self):
-        """Invalid GET /street/?zipcode=ZIPCODE must return status code 404."""
+        """Invalid GET /street/<int:zipcode> must return status code 404."""
         self.assertEqual(status.HTTP_404_NOT_FOUND, self.response.status_code)
 
 
@@ -45,13 +61,12 @@ class StreetViewInvalidPostTest(APITestCase):
         state = State.objects.create(name='Paraná', country=country)
         city = City.objects.create(name='Cascavel', state=state)
         neigh = Neighborhood.objects.create(name='Santa Felicidade', city=city)
-        street_type = StreetType.objects.create(name='Rua')
 
         self.response = self.client.post(
             resolve_url('street-list'),
             dict(
-                name='João Ribeiro Pinheiro', zipcode='85803260',
-                neighborhood=neigh.pk, street_type=street_type.pk
+                name='João Ribeiro Pinheiro',
+                zipcode='85803260', neighborhood=neigh.pk
             )
         )
 
@@ -71,10 +86,9 @@ class StreetViewInvalidUpdateTest(APITestCase):
         state = State.objects.create(name='Paraná', country=country)
         city = City.objects.create(name='Cascavel', state=state)
         neigh = Neighborhood.objects.create(name='Santa Felicidade', city=city)
-        street_type = StreetType.objects.create(name='Rua')
         street = Street.objects.create(
-            name='João Ribeiro Pinheiro', zipcode='85803260',
-            neighborhood=neigh, street_type=street_type
+            name='João Ribeiro Pinheiro',
+            zipcode='85803260', neighborhood=neigh
         )
 
         self.url = resolve_url('street-detail', street.pk)
@@ -92,10 +106,9 @@ class StreetViewInvalidDeleteTest(APITestCase):
         state = State.objects.create(name='Paraná', country=country)
         city = City.objects.create(name='Cascavel', state=state)
         neigh = Neighborhood.objects.create(name='Santa Felicidade', city=city)
-        street_type = StreetType.objects.create(name='Rua')
         street = Street.objects.create(
-            name='João Ribeiro Pinheiro', zipcode='85803260',
-            neighborhood=neigh, street_type=street_type
+            name='João Ribeiro Pinheiro',
+            zipcode='85803260', neighborhood=neigh
         )
 
         self.url = resolve_url('street-detail', street.pk)
