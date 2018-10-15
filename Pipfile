@@ -1,24 +1,18 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [packages]
-
 django = "*"
 python-decouple = "*"
 dj-database-url = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
-
+requests = "*"
 
 [dev-packages]
-
 "flake8" = "*"
 
-
 [requires]
-
 python_version = "3.6"
