@@ -77,37 +77,20 @@ class Neighborhood(models.Model):
         return resolve_url('neighborhood-detail', self.pk)
 
 
-class StreetType(models.Model):
-    name = models.CharField('name', max_length=15)
-    abbreviation = models.CharField(
-        'abbreviation', max_length=5, null=True, blank=True)
-    created_at = models.DateTimeField(
-        'created at', auto_now_add=True, auto_now=False)
-    updated_at = models.DateTimeField(
-        'updated at', auto_now_add=True, auto_now=False)
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self) -> str:
-        return resolve_url('streettype-detail', self.pk)
-
-
 class Street(models.Model):
     name = models.CharField('name', max_length=255)
-    zipcode = models.CharField('zipcode', max_length=8, null=True, blank=True)
+    zipcode = models.CharField(
+        'zipcode', max_length=8, null=True, blank=True
+    )
     neighborhood = models.ForeignKey(
         'Neighborhood', on_delete=models.CASCADE, verbose_name='neighborhood')
-    street_type = models.ForeignKey(
-        'StreetType', on_delete=models.CASCADE, verbose_name='street type')
-    is_grand_user = models.BooleanField('is grand user', default=False)
     created_at = models.DateTimeField(
         'created at', auto_now_add=True, auto_now=False)
     updated_at = models.DateTimeField(
         'updated at', auto_now_add=True, auto_now=False)
 
     def __str__(self):
-        return f'{self.get_street_type()} {self.name}'
+        return f'{self.name}'
 
     def clean(self):
         if self.neighborhood.city.zipcode is None and \
@@ -125,9 +108,6 @@ class Street(models.Model):
 
     def get_absolute_url(self) -> str:
         return resolve_url('street-detail', self.pk)
-
-    def get_street_type(self) -> str:
-        return self.street_type.name
 
     def get_state_initials(self) -> str:
         return self.neighborhood.city.state.initials
