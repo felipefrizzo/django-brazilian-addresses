@@ -1,12 +1,20 @@
-from django.utils.translation import gettext_lazy as _
-from rest_framework.exceptions import NotFound
+from django.utils.translation import ugettext_lazy as _
+from requests import Timeout, ConnectionError, HTTPError
+from rest_framework.exceptions import NotFound, ValidationError
+from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from django_brazilian_addresses.addresses.models import Country, State, City, \
-    Neighborhood, StreetType, Street
-from django_brazilian_addresses.addresses.serializers import \
-    CountrySerializer, StateSerializer, CitySerializer, \
-    NeighborhoodSerializer, StreetTypeSerializer, StreetSerializer
+from django_brazilian_addresses.addresses.mixins import RequestsMixin
+from django_brazilian_addresses.addresses.models import (
+    Country, State, City, Neighborhood, Street
+)
+from django_brazilian_addresses.addresses.parsers import (
+    parser_get_zipcode_request
+)
+from django_brazilian_addresses.addresses.serializers import (
+    CountrySerializer, StateSerializer, CitySerializer,
+    NeighborhoodSerializer, StreetSerializer
+)
 
 
 class CountryView(ReadOnlyModelViewSet):
@@ -49,26 +57,38 @@ class NeighborhoodView(ReadOnlyModelViewSet):
     serializer_class = NeighborhoodSerializer
 
 
-class StreetTypeView(ReadOnlyModelViewSet):
-    queryset = StreetType.objects.all()
-    serializer_class = StreetTypeSerializer
-    pagination_class = None
-
-
-class StreetView(ReadOnlyModelViewSet):
+class StreetView(RequestsMixin, ReadOnlyModelViewSet):
     queryset = Street.objects.all()
     serializer_class = StreetSerializer
-    filter_fields = ('zipcode',)
+    lookup_url_kwarg = 'zipcode'
+    template_name = 'addresses/get_street_by_zipcode.xml'
 
-    def get_queryset(self):
-        qs = super(StreetView, self).get_queryset()
-        get_zipcode = self.request.query_params.get('zipcode', None)
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_street(kwargs.get('zipcode'))
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
-        if get_zipcode is not None:
-            qs = Street.objects.filter(zipcode=get_zipcode)
-            if not qs:
-                self.serializer_class = CitySerializer
-                qs = City.objects.filter(zipcode=get_zipcode)
-                if not qs:
-                    raise NotFound({'street': _('Street cannot be found')})
-        return qs
+    def get_street(self, zipcode: str):
+        if not zipcode.isdigit() or len(zipcode) != 8:
+            raise ValidationError({
+                'zipcode': _('Zip code must contain only 8 digits.')
+            })
+        self.context = {'zipcode': zipcode}
+        try:
+            request = self.requests()
+        except ConnectionError as err:
+            raise ValueError("ConnectionError", err)
+        except Timeout as err:
+            raise ValueError("Timeout", err)
+        except HTTPError as err:
+            raise ValueError("HTTPError", err)
+
+        instance = parser_get_zipcode_request(request)
+        if not instance:
+            raise NotFound({'address': _('Address does not exists.')})
+
+        if isinstance(instance, City):
+            self.serializer_class = CitySerializer
+        elif isinstance(instance, Street):
+            self.serializer_class = StreetSerializer
+        return instance
