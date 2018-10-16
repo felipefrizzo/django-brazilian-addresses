@@ -3,8 +3,10 @@ exclude =
     .git,
     __pycache__,
     *.pyc,
+    setup.py,
     settings.py,
     manage.py,
     wsgi.py,
     django_brazilian_addresses/*/migrations
+    */migrations
 max-line-length = 79
