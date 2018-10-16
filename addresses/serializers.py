@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from django_brazilian_addresses.addresses.models import (
+from addresses.models import (
     State, City, Neighborhood, Street
 )
 

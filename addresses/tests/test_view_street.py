@@ -2,9 +2,7 @@ from django.shortcuts import resolve_url
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from django_brazilian_addresses.addresses.models import (
-    State, City, Neighborhood, Street
-)
+from addresses.models import State, City, Neighborhood, Street
 
 
 class StreetViewTest(APITestCase):

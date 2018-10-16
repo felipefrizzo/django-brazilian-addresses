@@ -4,16 +4,11 @@ from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from django_brazilian_addresses.addresses.mixins import RequestsMixin
-from django_brazilian_addresses.addresses.models import (
-    State, City, Neighborhood, Street
-)
-from django_brazilian_addresses.addresses.parsers import (
-    parser_get_zipcode_request
-)
-from django_brazilian_addresses.addresses.serializers import (
-    StateSerializer, CitySerializer,
-    NeighborhoodSerializer, StreetSerializer
+from addresses.mixins import RequestsMixin
+from addresses.models import State, City, Neighborhood, Street
+from addresses.parsers import parser_get_zipcode_request
+from addresses.serializers import (
+    StateSerializer, CitySerializer, NeighborhoodSerializer, StreetSerializer
 )
 
 

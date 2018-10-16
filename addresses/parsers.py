@@ -3,7 +3,7 @@ import xml.etree.ElementTree as Et
 from django.utils.translation import ugettext_lazy as _
 from rest_framework.exceptions import NotFound
 
-from django_brazilian_addresses.addresses.models import State, City, \
+from addresses.models import State, City, \
     Neighborhood, Street
 
 

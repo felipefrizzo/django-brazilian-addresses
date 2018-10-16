@@ -1,4 +1,4 @@
-"""django_brazilian_addresses URL Configuration
+"""addresses_tests URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.0/topics/http/urls/
@@ -18,5 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('addresses/', include('django_brazilian_addresses.addresses.urls'))
+    path('addresses/', include('addresses.urls'))
 ]

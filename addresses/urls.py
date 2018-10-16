@@ -1,6 +1,6 @@
 from rest_framework import routers
 
-from django_brazilian_addresses.addresses.views import StateView, CityView, \
+from addresses.views import StateView, CityView, \
     NeighborhoodView, StreetView
 
 router = routers.SimpleRouter()

@@ -3,8 +3,7 @@ from datetime import datetime
 from django.shortcuts import resolve_url
 from django.test import TestCase
 
-from django_brazilian_addresses.addresses.models import State, City, \
-    Neighborhood
+from addresses.models import State, City, Neighborhood
 
 
 class NeighborhoodModelTest(TestCase):

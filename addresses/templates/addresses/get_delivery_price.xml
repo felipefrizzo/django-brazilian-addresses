@@ -1,0 +1,27 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cli="http://cliente.bean.master.sigep.bsb.correios.com.br/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cli:calculaTarifaServico>
+         <codAdministrativo>?</codAdministrativo>
+         <usuario>?</usuario>
+         <senha>?</senha>
+
+         <codServico>?</codServico>
+
+         <cepOrigem>?</cepOrigem>
+         <cepDestino>?</cepDestino>
+
+         <peso>?</peso>
+         <codFormato>?</codFormato>
+         <comprimento>?</comprimento>
+         <altura>?</altura>
+         <largura>?</largura>
+         <diametro>?</diametro>
+
+         <codMaoPropria>?</codMaoPropria>
+         <valorDeclarado>?</valorDeclarado>
+
+         <codAvisoRecebimento>?</codAvisoRecebimento>
+      </cli:calculaTarifaServico>
+   </soapenv:Body>
+</soapenv:Envelope>

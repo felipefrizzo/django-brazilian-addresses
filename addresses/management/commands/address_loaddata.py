@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from django_brazilian_addresses.addresses.models import State
+from addresses.models import State
 
 
 class Command(BaseCommand):

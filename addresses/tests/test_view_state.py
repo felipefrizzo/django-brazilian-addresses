@@ -2,32 +2,28 @@ from django.shortcuts import resolve_url
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from django_brazilian_addresses.addresses.models import State, City
+from addresses.models import State
 
 
-class CityViewTest(APITestCase):
+class StateViewTest(APITestCase):
     def setUp(self):
-        state = State.objects.create(name='Paraná', initials='PR')
-        City.objects.create(name='Cascavel', state=state)
-
-        self.response = self.client.get(resolve_url('city-list'))
+        State.objects.create(name='Paraná', initials='PR')
+        self.response = self.client.get(resolve_url('state-list'))
 
     def test_view(self):
-        """GET /city/ must return status code 200."""
+        """GET /state/ must return status code 200."""
         self.assertEqual(status.HTTP_200_OK, self.response.status_code)
 
     def test_list(self):
-        """Ensure we can list all cities"""
+        """Ensure we can list all states"""
         self.assertEqual(1, len(self.response.data))
 
 
-class CityViewInvalidPostTest(APITestCase):
+class StateViewInvalidPostTest(APITestCase):
     def setUp(self):
-        state = State.objects.create(name='Paraná', initials='PR')
-
         self.response = self.client.post(
-            resolve_url('city-list'),
-            dict(name='Cascavel', state=state.pk)
+            resolve_url('state-list'),
+            dict(name='Paraná', initials='PR')
         )
 
     def test_post(self):
@@ -36,30 +32,26 @@ class CityViewInvalidPostTest(APITestCase):
             status.HTTP_405_METHOD_NOT_ALLOWED, self.response.status_code)
 
     def test_dont_save(self):
-        """Ensure we can't insert a new city."""
-        self.assertFalse(City.objects.exists())
+        """Ensure we can't insert a new state."""
+        self.assertFalse(State.objects.exists())
 
 
-class CityViewInvalidUpdateTest(APITestCase):
+class StateViewInvalidUpdateTest(APITestCase):
     def setUp(self):
         state = State.objects.create(name='Paraná', initials='PR')
-        city = City.objects.create(name='Cascavel', state=state)
-
-        self.url = resolve_url('city-detail', city.pk)
+        self.url = resolve_url('state-detail', state.pk)
 
     def test_post(self):
         """Invalid post must return status code 405."""
-        self.response = self.client.put(self.url, dict(name='Curitiba'))
+        self.response = self.client.put(self.url, dict(name='São Paulo'))
         self.assertEqual(
             status.HTTP_405_METHOD_NOT_ALLOWED, self.response.status_code)
 
 
-class CityViewInvalidDeleteTest(APITestCase):
+class StateViewInvalidDeleteTest(APITestCase):
     def setUp(self):
         state = State.objects.create(name='Paraná', initials='PR')
-        city = City.objects.create(name='Cascavel', state=state)
-
-        self.url = resolve_url('city-detail', city.pk)
+        self.url = resolve_url('state-detail', state.pk)
 
     def test_post(self):
         """Invalid post must return status code 405."""
