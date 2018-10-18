@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from requests import Timeout, ConnectionError, HTTPError
 from rest_framework.exceptions import NotFound, ValidationError
@@ -10,6 +11,10 @@ from addresses.parsers import parser_get_zipcode_request
 from addresses.serializers import (
     StateSerializer, CitySerializer, NeighborhoodSerializer, StreetSerializer
 )
+
+DEFAULT_CORREIO_URL = """
+https://apps.correios.com.br/SigepMasterJPA/AtendeClienteService/AtendeCliente?wsdl
+"""
 
 
 class StateView(ReadOnlyModelViewSet):
@@ -51,6 +56,8 @@ class StreetView(RequestsMixin, ReadOnlyModelViewSet):
     serializer_class = StreetSerializer
     lookup_url_kwarg = 'zipcode'
     template_name = 'addresses/get_street_by_zipcode.xml'
+    url = getattr(settings, 'CORREIO_URL', DEFAULT_CORREIO_URL)
+    headers = {'Content-Type': 'application/json'}
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_street(kwargs.get('zipcode'))
